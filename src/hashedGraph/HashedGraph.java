@@ -5,15 +5,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class hashedGraph<T> {
+public class HashedGraph<T> {
 	private Set<T> nodes= new HashSet<T>();
 	private Map<T, Set<T>> arcs = new HashMap<T, Set<T>>();
-
-	public hashedGraph() {
-		// TODO Auto-generated constructor stub
-		nodes = null;
-		arcs = null;
-	}
 
 	public Boolean isEmpty() {
 		Boolean empty=true;
@@ -32,25 +26,12 @@ public class hashedGraph<T> {
 		return nodes.contains(node);
 	}
 
-	public void insArc(T start, T end) {
-		if(!this.contains(start)) {
-			this.insNode(start);
-		}
-		if(!this.contains(end)) {
-			this.insNode(end);
-		}
-		Set<T> adjacents = arcs.get(start);
-		adjacents.add(end);
-	}
-
 	public void removeNode(T node) {
 		nodes.remove(node);
 		arcs.remove(node);
-	}
-
-	public void removeArc(T start, T end) {
-		Set<T> adjacents=arcs.get(start);
-		adjacents.remove(end);
+		for(T k: arcs.keySet()) {
+			arcs.get(k).remove(node);
+		}
 	}
 
 	public Set<T> getAdjacents(T node) throws hashedGraphException {
@@ -71,4 +52,19 @@ public class hashedGraph<T> {
 		return exists;
 	}
 
+	public void insArc(T start, T end) {
+		if(!this.contains(start)) {
+			this.insNode(start);
+		}
+		if(!this.contains(end)) {
+			this.insNode(end);
+		}
+		Set<T> adjacents = arcs.get(start);
+		adjacents.add(end);
+	}
+
+	public void removeArc(T start, T end) {
+		Set<T> adjacents=arcs.get(start);
+		adjacents.remove(end);
+	}
 }
